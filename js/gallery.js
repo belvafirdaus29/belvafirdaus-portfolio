@@ -13,7 +13,6 @@ if (galleryImages.length) {
     <button class="gallery-lightbox__button gallery-lightbox__button--prev" type="button" aria-label="Previous image">Prev</button>
     <figure>
       <img class="gallery-lightbox__image" alt="">
-      <figcaption class="gallery-lightbox__caption"></figcaption>
     </figure>
     <button class="gallery-lightbox__button gallery-lightbox__button--next" type="button" aria-label="Next image">Next</button>
   `;
@@ -21,7 +20,6 @@ if (galleryImages.length) {
   document.body.appendChild(lightbox);
 
   const image = lightbox.querySelector(".gallery-lightbox__image");
-  const caption = lightbox.querySelector(".gallery-lightbox__caption");
   const closeButton = lightbox.querySelector(".gallery-lightbox__button--close");
   const prevButton = lightbox.querySelector(".gallery-lightbox__button--prev");
   const nextButton = lightbox.querySelector(".gallery-lightbox__button--next");
@@ -33,7 +31,6 @@ if (galleryImages.length) {
 
     image.src = selected.currentSrc || selected.src;
     image.alt = selected.alt;
-    caption.textContent = selected.alt;
   };
 
   const openLightbox = (index) => {

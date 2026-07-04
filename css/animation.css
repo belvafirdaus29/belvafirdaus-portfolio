@@ -206,6 +206,41 @@ body:not(.reveal-ready) .motion-reveal {
   }
 }
 
+@media (hover: hover) {
+  html[data-theme="dark"] .nav a:hover,
+  html[data-theme="dark"] .theme-toggle:hover,
+  html[data-theme="dark"] .contact-links a:hover,
+  html[data-theme="dark"] .footer a:hover,
+  html[data-theme="dark"] .gallery-lightbox__button:hover {
+    box-shadow:
+      0 10px 30px rgba(255, 255, 255, 0.08),
+      0 0 0 1px rgba(255, 255, 255, 0.08);
+  }
+
+  html[data-theme="dark"] .nav-cta:hover,
+  html[data-theme="dark"] .btn:hover {
+    box-shadow:
+      0 12px 36px rgba(255, 255, 255, 0.12),
+      0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+
+  html[data-theme="dark"] .project-card:hover,
+  html[data-theme="dark"] .project-card.reveal.is-visible:hover,
+  html[data-theme="dark"] .project-card.motion-reveal.is-visible:hover,
+  html[data-theme="dark"] .project-nav-link:hover {
+    box-shadow:
+      0 18px 52px rgba(255, 255, 255, 0.1),
+      0 0 0 1px rgba(255, 255, 255, 0.08);
+  }
+
+  html[data-theme="dark"] .gallery img:hover,
+  html[data-theme="dark"] .gallery img[data-parallax].is-visible:hover {
+    box-shadow:
+      0 14px 40px rgba(255, 255, 255, 0.09),
+      0 0 0 1px rgba(255, 255, 255, 0.07);
+  }
+}
+
 .project-card.reveal.is-visible:active,
 .project-card.motion-reveal.is-visible:active,
 .gallery img[data-parallax].is-visible:active {

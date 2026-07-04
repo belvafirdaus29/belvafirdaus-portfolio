@@ -60,9 +60,9 @@ a {
   position: sticky;
   top: 0;
   z-index: 50;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  justify-content: space-between;
   gap: 18px;
   width: min(calc(100% - 32px), var(--max));
   margin: 16px auto 0;
@@ -81,6 +81,7 @@ a {
 .brand {
   display: inline-flex;
   align-items: center;
+  justify-self: start;
   gap: 12px;
   font-weight: 800;
   white-space: nowrap;
@@ -98,6 +99,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+  justify-self: center;
   gap: 4px;
   padding: 4px;
   border-radius: 999px;
@@ -130,8 +132,8 @@ a {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  justify-self: end;
   gap: 10px;
-  margin-left: auto;
 }
 
 .theme-toggle {
@@ -570,6 +572,15 @@ p {
   color: white;
 }
 
+.contact-email {
+  margin: 20px 0 0;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: clamp(0.92rem, 1.5vw, 1.02rem);
+  font-weight: 700;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
 .contact-links {
   display: flex;
   flex-wrap: wrap;
@@ -578,19 +589,24 @@ p {
 }
 
 .contact-links a,
+.contact-links button,
 .contact-links span {
   display: inline-flex;
   align-items: center;
   min-height: 48px;
   padding: 0 16px;
+  appearance: none;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.07);
   color: white;
+  font: inherit;
   font-weight: 800;
+  cursor: pointer;
 }
 
-.contact-links a:hover {
+.contact-links a:hover,
+.contact-links button:hover {
   background: white;
   color: var(--ink);
 }
@@ -645,6 +661,7 @@ p {
 
 @media (max-width: 760px) {
   .site-header {
+    display: flex;
     align-items: stretch;
     border-radius: 24px;
     flex-wrap: wrap;
@@ -758,6 +775,7 @@ p {
 
   .btn,
   .contact-links a,
+  .contact-links button,
   .contact-links span {
     width: 100%;
   }
@@ -861,13 +879,15 @@ html[data-theme="dark"] .contact__inner h2 {
 }
 
 html[data-theme="dark"] .contact-links a,
+html[data-theme="dark"] .contact-links button,
 html[data-theme="dark"] .contact-links span {
   border-color: rgba(255, 255, 255, 0.18);
   background: rgba(255, 255, 255, 0.08);
   color: var(--ink);
 }
 
-html[data-theme="dark"] .contact-links a:hover {
+html[data-theme="dark"] .contact-links a:hover,
+html[data-theme="dark"] .contact-links button:hover {
   background: var(--ink);
   color: #111110;
 }

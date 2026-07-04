@@ -231,7 +231,7 @@ document.querySelectorAll("a[href]").forEach((link) => {
   });
 });
 
-document.querySelectorAll(".btn, .nav a, .nav-cta, .contact-links a, .project-nav-link, .footer a").forEach((button) => {
+document.querySelectorAll(".btn, .nav a, .nav-cta, .contact-links a, .contact-links button, .project-nav-link, .footer a").forEach((button) => {
   button.addEventListener("click", (event) => {
     const rect = button.getBoundingClientRect();
     const ripple = document.createElement("span");

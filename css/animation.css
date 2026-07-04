@@ -66,6 +66,50 @@ main {
   pointer-events: none;
 }
 
+:where(.brand, .nav a, .nav-cta, .btn, .contact-links a, .footer a, .project-card, .project-nav-link, .gallery img, .gallery-lightbox__button) {
+  transition-duration: 0.34s;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+@media (hover: hover) {
+  .brand:hover,
+  .nav a:hover,
+  .nav-cta:hover,
+  .contact-links a:hover,
+  .footer a:hover,
+  .gallery-lightbox__button:hover {
+    opacity: 0.94;
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  .btn:hover {
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  .project-card:hover {
+    transform: translateY(-6px) scale(1.01);
+  }
+
+  .project-nav-link:hover {
+    transform: translateY(-4px) scale(1.01);
+  }
+}
+
+.brand:active,
+.nav a:active,
+.nav-cta:active,
+.btn:active,
+.contact-links a:active,
+.footer a:active,
+.project-card:active,
+.project-nav-link:active,
+.gallery img:active,
+.gallery-lightbox__button:active {
+  opacity: 0.82;
+  transform: translateY(1px) scale(0.97);
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(34px);
@@ -81,6 +125,20 @@ main {
   transform: translate(0, 0);
 }
 
+body.page-transition-ready .site-header,
+body.page-transition-ready main,
+body.page-transition-ready .footer {
+  animation: pageEnter 0.62s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+body.is-page-leaving .site-header,
+body.is-page-leaving main,
+body.is-page-leaving .footer {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.48s ease, transform 0.48s ease;
+}
+
 @keyframes pulse {
   0%,
   100% {
@@ -90,6 +148,17 @@ main {
   50% {
     transform: scale(0.94);
     opacity: 0.72;
+  }
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -127,6 +196,17 @@ main {
 
   .cursor-dot {
     display: none;
+  }
+
+  body.page-transition-ready .site-header,
+  body.page-transition-ready main,
+  body.page-transition-ready .footer,
+  body.is-page-leaving .site-header,
+  body.is-page-leaving main,
+  body.is-page-leaving .footer {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 

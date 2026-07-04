@@ -1,5 +1,6 @@
 const revealItems = document.querySelectorAll(".reveal");
 const isMobileViewport = window.matchMedia("(max-width: 768px)").matches;
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 const hideLoader = () => {
   document.body.classList.remove("is-loading");
@@ -11,6 +12,10 @@ const showRevealItems = () => {
 };
 
 document.body.classList.add("is-loading");
+
+if (!prefersReducedMotion.matches) {
+  document.body.classList.add("page-transition-ready");
+}
 
 const showInitialContent = () => {
   hideLoader();
@@ -32,7 +37,10 @@ window.addEventListener("load", () => {
   window.setTimeout(showInitialContent, 450);
 }, { once: true });
 
-window.addEventListener("pageshow", showInitialContent);
+window.addEventListener("pageshow", () => {
+  document.body.classList.remove("is-page-leaving");
+  showInitialContent();
+});
 
 window.setTimeout(hideLoader, 1500);
 window.setTimeout(showRevealItems, isMobileViewport ? 700 : 2400);
@@ -80,7 +88,41 @@ if ("IntersectionObserver" in window && sections.length && navLinks.length) {
   sections.forEach((section) => navObserver.observe(section));
 }
 
-document.querySelectorAll(".btn, .nav-cta, .contact-links a, .project-nav-link").forEach((button) => {
+const isInternalPageLink = (link, event) => {
+  if (prefersReducedMotion.matches || event.defaultPrevented) return false;
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return false;
+  if (link.target && link.target.toLowerCase() !== "_self") return false;
+  if (link.hasAttribute("download")) return false;
+
+  const rawHref = link.getAttribute("href");
+  if (!rawHref || rawHref.startsWith("#")) return false;
+  if (/^(mailto:|tel:|sms:|javascript:)/i.test(rawHref)) return false;
+
+  const url = new URL(rawHref, window.location.href);
+  if (url.origin !== window.location.origin) return false;
+
+  const isSamePage = url.pathname === window.location.pathname && url.search === window.location.search;
+  if (isSamePage && url.hash) return false;
+
+  const fileName = url.pathname.split("/").pop();
+  return fileName === "" || fileName.endsWith(".html");
+};
+
+document.querySelectorAll("a[href]").forEach((link) => {
+  link.addEventListener("click", (event) => {
+    if (!isInternalPageLink(link, event)) return;
+    if (document.body.classList.contains("is-page-leaving")) return;
+
+    event.preventDefault();
+    document.body.classList.add("is-page-leaving");
+
+    window.setTimeout(() => {
+      window.location.href = link.href;
+    }, 480);
+  });
+});
+
+document.querySelectorAll(".btn, .nav a, .nav-cta, .contact-links a, .project-nav-link").forEach((button) => {
   button.addEventListener("click", (event) => {
     const rect = button.getBoundingClientRect();
     const ripple = document.createElement("span");

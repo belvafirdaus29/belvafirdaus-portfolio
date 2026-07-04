@@ -1,0 +1,15 @@
+refrensi/
+tmp/
+.agents/
+.codex/
+.git.invalid-empty/
+.git.invalid-empty-2/
+.gitdata/
+Thumbs.db
+.DS_Store
+desktop.ini
+*.tmp
+*.bak
+node_modules/
+.env
+.env.local

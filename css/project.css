@@ -273,3 +273,41 @@ body.has-lightbox {
     width: min(calc(100% - 24px), var(--max));
   }
 }
+
+html[data-theme="dark"] .case-study {
+  border-color: var(--line);
+}
+
+html[data-theme="dark"] .case-copy,
+html[data-theme="dark"] .case-meta,
+html[data-theme="dark"] .project-nav-link {
+  border-color: var(--line);
+  background: var(--paper);
+  color: var(--ink);
+}
+
+html[data-theme="dark"] .gallery img {
+  background: #242423;
+}
+
+html[data-theme="dark"] .project-nav-link:hover {
+  background: var(--paper-solid);
+}
+
+html[data-theme="dark"] .project-nav-link--home {
+  background: var(--ink);
+  color: #111110;
+}
+
+html[data-theme="dark"] .project-nav-link--home span {
+  color: rgba(17, 17, 16, 0.62);
+}
+
+html[data-theme="dark"] .gallery-lightbox {
+  background: rgba(5, 5, 5, 0.94);
+}
+
+html[data-theme="dark"] .gallery-lightbox__button:hover {
+  background: var(--ink);
+  color: #111110;
+}

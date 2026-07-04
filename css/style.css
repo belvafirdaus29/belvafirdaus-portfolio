@@ -548,14 +548,28 @@ p {
 .footer {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   gap: 18px;
   padding: 26px 0 40px;
   color: var(--muted);
   font-weight: 700;
 }
 
+.footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
 .footer p {
   margin: 0;
+}
+
+.footer small {
+  color: rgba(12, 12, 13, 0.48);
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.5;
 }
 
 @media (max-width: 1040px) {

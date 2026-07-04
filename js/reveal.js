@@ -1,5 +1,6 @@
 (() => {
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const isMobileViewport = window.matchMedia("(max-width: 768px)");
   const body = document.body;
 
   const revealSelectors = [
@@ -49,10 +50,50 @@
     getRevealItems().forEach((item) => item.classList.add("is-visible"));
   };
 
+  const showSafeContent = () => {
+    body.classList.add("page-loaded");
+    body.classList.remove("reveal-animations-ready");
+    showAllRevealItems();
+  };
+
+  const runTimedFallback = () => {
+    body.classList.add("page-loaded");
+
+    if (isMobileViewport.matches || prefersReducedMotion.matches || !("IntersectionObserver" in window)) {
+      showSafeContent();
+    }
+  };
+
+  const addImageFallbacks = () => {
+    document.querySelectorAll("img").forEach((image) => {
+      if (image.complete) {
+        image.classList.add("is-visible");
+      }
+
+      image.addEventListener(
+        "load",
+        () => {
+          image.classList.add("is-visible");
+        },
+        { once: true }
+      );
+
+      image.addEventListener(
+        "error",
+        () => {
+          image.classList.add("is-visible");
+          image.style.opacity = "1";
+          image.style.transform = "none";
+        },
+        { once: true }
+      );
+    });
+  };
+
   const setupRevealObserver = () => {
     const revealItems = getRevealItems();
 
-    if (!("IntersectionObserver" in window) || prefersReducedMotion.matches) {
+    if (!("IntersectionObserver" in window) || prefersReducedMotion.matches || isMobileViewport.matches) {
       body.classList.remove("reveal-animations-ready");
       showAllRevealItems();
       return;
@@ -74,22 +115,28 @@
   };
 
   const startRevealSystem = () => {
-    addRevealClasses();
-    applyStagger();
+    try {
+      addRevealClasses();
+      applyStagger();
+      addImageFallbacks();
 
-    if (!prefersReducedMotion.matches) {
-      body.classList.add("reveal-animations-ready");
+      if (!prefersReducedMotion.matches && !isMobileViewport.matches) {
+        body.classList.add("reveal-animations-ready");
+      }
+
+      window.requestAnimationFrame(() => {
+        body.classList.add("page-loaded");
+        setupRevealObserver();
+      });
+
+      window.setTimeout(runTimedFallback, 1200);
+    } catch {
+      showSafeContent();
     }
-
-    window.requestAnimationFrame(() => {
-      body.classList.add("page-loaded");
-      setupRevealObserver();
-    });
-
-    window.setTimeout(() => {
-      body.classList.add("page-loaded");
-    }, 1200);
   };
+
+  window.addEventListener("error", showSafeContent);
+  window.addEventListener("unhandledrejection", showSafeContent);
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", startRevealSystem, { once: true });

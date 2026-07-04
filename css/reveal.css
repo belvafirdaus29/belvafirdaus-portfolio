@@ -19,6 +19,11 @@ body.page-loaded {
   transition-delay: var(--reveal-delay, 0ms);
 }
 
+body:not(.reveal-animations-ready) .reveal {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
 body.reveal-animations-ready .reveal:not(.is-visible) {
   opacity: 0;
   transform: translateY(42px);
@@ -51,5 +56,14 @@ body.reveal-animations-ready .reveal:not(.is-visible) {
     transform: none !important;
     transition: none !important;
     animation: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .reveal,
+  body.reveal-animations-ready .reveal,
+  body.reveal-animations-ready .reveal.is-visible {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

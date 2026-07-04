@@ -24,6 +24,27 @@ if (galleryImages.length) {
   const prevButton = lightbox.querySelector(".gallery-lightbox__button--prev");
   const nextButton = lightbox.querySelector(".gallery-lightbox__button--next");
   let activeIndex = 0;
+  let lockedScrollY = 0;
+
+  const lockPageScroll = () => {
+    lockedScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+    document.body.classList.add("has-lightbox", "lightbox-open");
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${lockedScrollY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
+  };
+
+  const restorePageScroll = () => {
+    document.body.classList.remove("has-lightbox", "lightbox-open");
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+    window.scrollTo(0, lockedScrollY);
+  };
 
   const showImage = (index) => {
     activeIndex = (index + galleryImages.length) % galleryImages.length;
@@ -31,18 +52,21 @@ if (galleryImages.length) {
 
     image.src = selected.currentSrc || selected.src;
     image.alt = selected.alt;
+    image.removeAttribute("title");
   };
 
   const openLightbox = (index) => {
     showImage(index);
     lightbox.classList.add("is-open");
-    document.body.classList.add("has-lightbox");
+    lockPageScroll();
     closeButton.focus();
   };
 
   const closeLightbox = () => {
+    if (!lightbox.classList.contains("is-open")) return;
+
     lightbox.classList.remove("is-open");
-    document.body.classList.remove("has-lightbox");
+    restorePageScroll();
     galleryImages[activeIndex].focus();
   };
 

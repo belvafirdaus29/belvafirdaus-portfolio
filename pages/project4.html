@@ -15,6 +15,15 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/project.css">
   <link rel="stylesheet" href="../css/animation.css">
+  <link rel="stylesheet" href="../css/reveal.css">
+  <noscript>
+    <style>
+      body, .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    </style>
+  </noscript>
 </head>
 <body class="project-page">
   <div class="loader" aria-hidden="true">
@@ -68,9 +77,9 @@
       </div>
 
       <div class="gallery gallery--mixed reveal" aria-label="Selected works gallery">
-        <img src="../assets/optimized/projects/others/hipmi%20terima%20kasih.webp" alt="HIPMI thank you design" loading="lazy">
-        <img src="../assets/optimized/projects/others/hpmi%20dokum.webp" alt="HIPMI documentation design" loading="lazy">
-        <img src="../assets/optimized/projects/others/POSTER-RONALDO.webp" alt="Ronaldo poster design" loading="lazy">
+        <img class="reveal" src="../assets/optimized/projects/others/hipmi%20terima%20kasih.webp" alt="HIPMI thank you design" loading="lazy">
+        <img class="reveal" src="../assets/optimized/projects/others/hpmi%20dokum.webp" alt="HIPMI documentation design" loading="lazy">
+        <img class="reveal" src="../assets/optimized/projects/others/POSTER-RONALDO.webp" alt="Ronaldo poster design" loading="lazy">
       </div>
 
       <nav class="project-navigation reveal" aria-label="Project navigation">
@@ -90,7 +99,7 @@
     </section>
   </main>
 
-  <footer class="footer">
+  <footer class="footer reveal">
     <div class="footer__brand">
       <small>Copyright © 2026 Belva Firdaus. All rights reserved.</small>
     </div>
@@ -102,5 +111,6 @@
   <script src="../js/gallery.js"></script>
   <script src="../js/transitions.js"></script>
   <script src="../js/scroll-animations.js"></script>
+  <script src="../js/reveal.js"></script>
 </body>
 </html>

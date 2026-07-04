@@ -1,0 +1,55 @@
+body {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 800ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
+  animation: revealBodyFallback 800ms cubic-bezier(0.16, 1, 0.3, 1) 160ms forwards;
+}
+
+body.page-loaded {
+  opacity: 1;
+  transform: translateY(0);
+  animation: none;
+}
+
+.reveal {
+  opacity: 1;
+  transform: none;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+body.reveal-animations-ready .reveal:not(.is-visible) {
+  opacity: 0;
+  transform: translateY(42px);
+  transition:
+    opacity 900ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, var(--parallax-y, 0px), 0);
+}
+
+@keyframes revealBodyFallback {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body,
+  body.page-loaded,
+  .reveal,
+  body.reveal-animations-ready .reveal,
+  body.reveal-animations-ready .reveal.is-visible {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}

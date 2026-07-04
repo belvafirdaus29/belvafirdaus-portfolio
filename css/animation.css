@@ -160,8 +160,8 @@ main {
   transition-delay: var(--motion-delay, 0ms);
 }
 
-body.reveal-ready .reveal,
-body.reveal-ready .motion-reveal {
+body.reveal-ready .reveal:not(.is-visible),
+body.reveal-ready .motion-reveal:not(.is-visible) {
   opacity: 0;
   transform: translate3d(0, 28px, 0);
   transition:
@@ -170,12 +170,12 @@ body.reveal-ready .motion-reveal {
   will-change: opacity, transform;
 }
 
-body.reveal-ready .reveal--right {
+body.reveal-ready .reveal--right:not(.is-visible) {
   transform: translate3d(0, 28px, 0);
 }
 
-body.reveal-ready .reveal.is-visible,
-body.reveal-ready .motion-reveal.is-visible,
+.reveal.is-visible,
+.motion-reveal.is-visible,
 body:not(.reveal-ready) .reveal,
 body:not(.reveal-ready) .motion-reveal {
   opacity: 1;

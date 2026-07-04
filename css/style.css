@@ -81,14 +81,14 @@ a {
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   font-weight: 800;
   white-space: nowrap;
 }
 
 .brand img {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -668,6 +668,15 @@ p {
 
   .site-header {
     width: min(calc(100% - 24px), var(--max));
+  }
+
+  .brand {
+    gap: 10px;
+  }
+
+  .brand img {
+    width: 42px;
+    height: 42px;
   }
 
   .nav a,

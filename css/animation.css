@@ -62,14 +62,33 @@ main {
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.45);
   transform: scale(0);
-  animation: ripple 0.6s linear;
+  animation: ripple 0.72s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
 }
 
 :where(.brand, .nav a, .nav-cta, .btn, .contact-links a, .footer a, .project-card, .project-nav-link, .gallery img, .gallery-lightbox__button) {
-  transition-duration: 0.34s;
-  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform, opacity;
+  transition-property: transform, opacity, box-shadow, background, color, border-color, filter;
+  transition-duration: 0.42s;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity, box-shadow;
+}
+
+:where(.nav a, .nav-cta, .btn, .contact-links a, .footer a, .project-nav-link) {
+  position: relative;
+  overflow: hidden;
+}
+
+[data-parallax] {
+  --parallax-y: 0px;
+}
+
+[data-parallax]:not(.reveal):not(.motion-reveal) {
+  transform: translate3d(0, var(--parallax-y), 0);
+}
+
+.project-card img[data-parallax],
+.portrait-shell img[data-parallax] {
+  transform: translate3d(0, var(--parallax-y), 0) scale(1);
 }
 
 @media (hover: hover) {
@@ -79,20 +98,35 @@ main {
   .contact-links a:hover,
   .footer a:hover,
   .gallery-lightbox__button:hover {
-    opacity: 0.94;
-    transform: translateY(-2px) scale(1.02);
+    opacity: 0.95;
+    transform: translateY(-3px) scale(1.025);
+    box-shadow: 0 16px 42px rgba(12, 12, 13, 0.1);
   }
 
   .btn:hover {
-    transform: translateY(-3px) scale(1.02);
+    opacity: 0.96;
+    transform: translateY(-5px) scale(1.025);
+    box-shadow: 0 24px 54px rgba(12, 12, 13, 0.18);
   }
 
   .project-card:hover {
-    transform: translateY(-6px) scale(1.01);
+    transform: translateY(-10px) scale(1.012);
+    box-shadow: 0 30px 76px rgba(12, 12, 13, 0.15);
+  }
+
+  .project-card:hover img[data-parallax],
+  .portrait-shell:hover img[data-parallax] {
+    transform: translate3d(0, var(--parallax-y), 0) scale(1.045);
   }
 
   .project-nav-link:hover {
-    transform: translateY(-4px) scale(1.01);
+    transform: translateY(-7px) scale(1.015);
+    box-shadow: 0 28px 70px rgba(12, 12, 13, 0.13);
+  }
+
+  .gallery img:hover,
+  .gallery img[data-parallax].is-visible:hover {
+    transform: translate3d(0, calc(var(--parallax-y, 0px) - 6px), 0) scale(1.02);
   }
 }
 
@@ -106,37 +140,80 @@ main {
 .project-nav-link:active,
 .gallery img:active,
 .gallery-lightbox__button:active {
-  opacity: 0.82;
-  transform: translateY(1px) scale(0.97);
+  opacity: 0.78;
+  transform: translateY(2px) scale(0.96);
+  transition-duration: 0.26s;
 }
 
-.reveal {
+.reveal,
+.motion-reveal {
   opacity: 0;
-  transform: translateY(34px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  visibility: visible;
+  transform: translate3d(0, 40px, 0);
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--motion-delay, 0ms);
+  will-change: opacity, transform;
 }
 
 .reveal--right {
-  transform: translateX(34px);
+  transform: translate3d(34px, 0, 0);
 }
 
-.reveal.is-visible {
+.reveal.is-visible,
+.motion-reveal.is-visible {
   opacity: 1;
-  transform: translate(0, 0);
+  transform: translate3d(0, var(--parallax-y, 0px), 0);
 }
 
-body.page-transition-ready .site-header,
-body.page-transition-ready main,
-body.page-transition-ready .footer {
-  animation: pageEnter 0.62s cubic-bezier(0.22, 1, 0.36, 1) both;
+.gallery img[data-parallax].is-visible {
+  transform: translate3d(0, var(--parallax-y, 0px), 0) scale(1);
 }
 
-body.is-page-leaving .site-header,
-body.is-page-leaving main,
-body.is-page-leaving .footer {
+@media (hover: hover) {
+  .timeline article.motion-reveal.is-visible:hover,
+  .skill-card.reveal.is-visible:hover,
+  .skill-card.motion-reveal.is-visible:hover,
+  .software-grid article.motion-reveal.is-visible:hover {
+    transform: translate3d(0, -8px, 0) scale(1.01);
+    box-shadow: 0 24px 64px rgba(12, 12, 13, 0.13);
+  }
+
+  .project-card.reveal.is-visible:hover,
+  .project-card.motion-reveal.is-visible:hover {
+    transform: translate3d(0, -10px, 0) scale(1.012);
+    box-shadow: 0 30px 76px rgba(12, 12, 13, 0.15);
+  }
+
+  .gallery img[data-parallax].is-visible:hover {
+    transform: translate3d(0, calc(var(--parallax-y, 0px) - 6px), 0) scale(1.02);
+  }
+}
+
+.project-card.reveal.is-visible:active,
+.project-card.motion-reveal.is-visible:active,
+.gallery img[data-parallax].is-visible:active {
+  opacity: 0.78;
+  transform: translate3d(0, 2px, 0) scale(0.96);
+  transition-duration: 0.26s;
+}
+
+body.page-enter .site-header,
+body.page-enter main,
+body.page-enter .footer {
+  animation: pageEnter 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+body.page-exit .site-header,
+body.page-exit main,
+body.page-exit .footer {
   opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.48s ease, transform 0.48s ease;
+  transform: translate3d(0, -16px, 0);
+  transition:
+    opacity 0.62s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.62s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
 }
 
 @keyframes pulse {
@@ -154,11 +231,11 @@ body.is-page-leaving .footer {
 @keyframes pageEnter {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translate3d(0, 16px, 0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -198,26 +275,35 @@ body.is-page-leaving .footer {
     display: none;
   }
 
-  body.page-transition-ready .site-header,
-  body.page-transition-ready main,
-  body.page-transition-ready .footer,
-  body.is-page-leaving .site-header,
-  body.is-page-leaving main,
-  body.is-page-leaving .footer {
+  .reveal,
+  .motion-reveal,
+  .reveal--right,
+  [data-parallax],
+  body.page-enter .site-header,
+  body.page-enter main,
+  body.page-enter .footer,
+  body.page-exit .site-header,
+  body.page-exit main,
+  body.page-exit .footer {
     animation: none !important;
     opacity: 1 !important;
+    visibility: visible !important;
     transform: none !important;
+    transition: none !important;
   }
 }
 
 @media (max-width: 768px) {
   .reveal,
+  .motion-reveal,
   .reveal--right,
   .fade-up,
-  .animate-on-scroll {
+  .animate-on-scroll,
+  [data-parallax] {
     opacity: 1;
     visibility: visible;
-    transform: none;
+    transform: none !important;
+    transition-delay: 0ms;
   }
 }
 

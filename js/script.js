@@ -1,14 +1,43 @@
+const revealItems = document.querySelectorAll(".reveal");
+const isMobileViewport = window.matchMedia("(max-width: 768px)").matches;
+
+const hideLoader = () => {
+  document.body.classList.remove("is-loading");
+  document.body.classList.add("is-ready");
+};
+
+const showRevealItems = () => {
+  revealItems.forEach((item) => item.classList.add("is-visible"));
+};
+
 document.body.classList.add("is-loading");
 
+const showInitialContent = () => {
+  hideLoader();
+
+  if (isMobileViewport) {
+    showRevealItems();
+  }
+};
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
+    window.setTimeout(showInitialContent, 120);
+  }, { once: true });
+} else {
+  window.setTimeout(showInitialContent, 120);
+}
+
 window.addEventListener("load", () => {
-  window.setTimeout(() => {
-    document.body.classList.remove("is-loading");
-  }, 450);
-});
+  window.setTimeout(showInitialContent, 450);
+}, { once: true });
 
-const revealItems = document.querySelectorAll(".reveal");
+window.addEventListener("pageshow", showInitialContent);
 
-if ("IntersectionObserver" in window && revealItems.length) {
+window.setTimeout(hideLoader, 1500);
+window.setTimeout(showRevealItems, isMobileViewport ? 700 : 2400);
+
+if (!isMobileViewport && "IntersectionObserver" in window && revealItems.length) {
   const revealObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -25,7 +54,7 @@ if ("IntersectionObserver" in window && revealItems.length) {
 
   revealItems.forEach((item) => revealObserver.observe(item));
 } else {
-  revealItems.forEach((item) => item.classList.add("is-visible"));
+  showRevealItems();
 }
 
 const sections = document.querySelectorAll("main section[id]");

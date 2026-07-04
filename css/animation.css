@@ -6,6 +6,7 @@
   place-items: center;
   background: var(--ink);
   color: white;
+  pointer-events: none;
   transition: opacity 0.6s ease, visibility 0.6s ease;
 }
 
@@ -20,9 +21,21 @@
   animation: pulse 1.2s ease-in-out infinite;
 }
 
+body.is-loading .loader {
+  pointer-events: auto;
+}
+
+body.is-ready .loader,
 body:not(.is-loading) .loader {
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
+}
+
+body,
+main {
+  opacity: 1;
+  visibility: visible;
 }
 
 .cursor-dot {
@@ -117,8 +130,19 @@ body:not(.is-loading) .loader {
   }
 }
 
+@media (max-width: 768px) {
+  .reveal,
+  .reveal--right,
+  .fade-up,
+  .animate-on-scroll {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+}
+
 @media (max-width: 760px) {
   .reveal--right {
-    transform: translateY(34px);
+    transform: none;
   }
 }

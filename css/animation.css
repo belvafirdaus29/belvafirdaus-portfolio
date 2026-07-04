@@ -66,14 +66,14 @@ main {
   pointer-events: none;
 }
 
-:where(.brand, .nav a, .nav-cta, .btn, .contact-links a, .contact-links button, .footer a, .project-card, .project-nav-link, .gallery img, .gallery-lightbox__button) {
+:where(.brand, .nav a, .nav-cta, .btn, .contact-links a, .footer a, .project-card, .project-nav-link, .gallery img, .gallery-lightbox__button) {
   transition-property: transform, opacity, box-shadow, background, color, border-color, filter;
   transition-duration: 0.42s;
   transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, opacity, box-shadow;
 }
 
-:where(.nav a, .nav-cta, .btn, .contact-links a, .contact-links button, .footer a, .project-nav-link) {
+:where(.nav a, .nav-cta, .btn, .contact-links a, .footer a, .project-nav-link) {
   position: relative;
   overflow: hidden;
 }
@@ -95,7 +95,6 @@ main {
   .nav a:hover,
   .nav-cta:hover,
   .contact-links a:hover,
-  .contact-links button:hover,
   .footer a:hover,
   .gallery-lightbox__button:hover {
     opacity: 0.95;
@@ -142,7 +141,6 @@ main {
 .nav-cta:active,
 .btn:active,
 .contact-links a:active,
-.contact-links button:active,
 .footer a:active,
 .project-card:active,
 .project-nav-link:active,
@@ -212,7 +210,6 @@ body:not(.reveal-ready) .motion-reveal {
   html[data-theme="dark"] .nav a:hover,
   html[data-theme="dark"] .theme-toggle:hover,
   html[data-theme="dark"] .contact-links a:hover,
-  html[data-theme="dark"] .contact-links button:hover,
   html[data-theme="dark"] .footer a:hover,
   html[data-theme="dark"] .gallery-lightbox__button:hover {
     box-shadow:

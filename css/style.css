@@ -572,12 +572,41 @@ p {
   color: white;
 }
 
-.contact-email {
-  margin: 20px 0 0;
-  color: rgba(255, 255, 255, 0.68);
-  font-size: clamp(0.92rem, 1.5vw, 1.02rem);
-  font-weight: 700;
-  line-height: 1.5;
+.contact-info-card {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 860px;
+  margin-top: 30px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.contact-info-card__item {
+  padding: 18px 20px;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.contact-info-card__item:last-child {
+  border-right: 0;
+}
+
+.contact-info-card__item span {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.contact-info-card__item p {
+  color: rgba(255, 255, 255, 0.86);
+  font-size: clamp(0.9rem, 1.25vw, 1rem);
+  font-weight: 800;
+  line-height: 1.45;
   overflow-wrap: anywhere;
 }
 
@@ -589,24 +618,19 @@ p {
 }
 
 .contact-links a,
-.contact-links button,
 .contact-links span {
   display: inline-flex;
   align-items: center;
   min-height: 48px;
   padding: 0 16px;
-  appearance: none;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.07);
   color: white;
-  font: inherit;
   font-weight: 800;
-  cursor: pointer;
 }
 
-.contact-links a:hover,
-.contact-links button:hover {
+.contact-links a:hover {
   background: white;
   color: var(--ink);
 }
@@ -773,9 +797,22 @@ p {
     display: grid;
   }
 
+  .contact-info-card {
+    grid-template-columns: 1fr;
+    border-radius: 20px;
+  }
+
+  .contact-info-card__item {
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .contact-info-card__item:last-child {
+    border-bottom: 0;
+  }
+
   .btn,
   .contact-links a,
-  .contact-links button,
   .contact-links span {
     width: 100%;
   }
@@ -878,16 +915,32 @@ html[data-theme="dark"] .contact__inner h2 {
   color: var(--ink);
 }
 
+html[data-theme="dark"] .contact-info-card {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+html[data-theme="dark"] .contact-info-card__item,
+html[data-theme="dark"] .contact-info-card__item:last-child {
+  border-color: rgba(255, 255, 255, 0.13);
+}
+
+html[data-theme="dark"] .contact-info-card__item span {
+  color: rgba(244, 241, 234, 0.52);
+}
+
+html[data-theme="dark"] .contact-info-card__item p {
+  color: rgba(244, 241, 234, 0.88);
+}
+
 html[data-theme="dark"] .contact-links a,
-html[data-theme="dark"] .contact-links button,
 html[data-theme="dark"] .contact-links span {
   border-color: rgba(255, 255, 255, 0.18);
   background: rgba(255, 255, 255, 0.08);
   color: var(--ink);
 }
 
-html[data-theme="dark"] .contact-links a:hover,
-html[data-theme="dark"] .contact-links button:hover {
+html[data-theme="dark"] .contact-links a:hover {
   background: var(--ink);
   color: #111110;
 }

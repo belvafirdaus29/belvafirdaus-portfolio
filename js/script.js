@@ -104,12 +104,16 @@ const showInitialContent = () => {
   startPageEnter();
   showViewportRevealItems();
 
-  if (isMobileViewport || prefersReducedMotion.matches) {
+  if (prefersReducedMotion.matches) {
     showRevealItems();
   }
 };
 
 document.body.classList.add("is-loading");
+
+if (!prefersReducedMotion.matches) {
+  document.body.classList.add("reveal-ready");
+}
 
 if (document.readyState === "loading") {
   document.addEventListener(
@@ -143,25 +147,24 @@ window.addEventListener("pageshow", (event) => {
 });
 
 window.setTimeout(showInitialContent, 1500);
-window.setTimeout(showRevealItems, isMobileViewport ? 700 : 2600);
+window.setTimeout(showViewportRevealItems, 700);
 
-if (!isMobileViewport && !prefersReducedMotion.matches && "IntersectionObserver" in window && revealItems.length) {
+if (!prefersReducedMotion.matches && "IntersectionObserver" in window && revealItems.length) {
   const revealObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("is-visible");
-        revealObserver.unobserve(entry.target);
+        entry.target.classList.toggle("is-visible", entry.isIntersecting);
       });
     },
     {
-      threshold: 0.14,
-      rootMargin: "0px 0px -90px 0px",
+      threshold: 0.12,
+      rootMargin: "0px 0px -8% 0px",
     }
   );
 
   revealItems.forEach((item) => revealObserver.observe(item));
 } else {
+  document.body.classList.remove("reveal-ready");
   showRevealItems();
 }
 

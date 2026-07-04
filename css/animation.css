@@ -153,22 +153,31 @@ main {
 
 .reveal,
 .motion-reveal {
-  opacity: 0;
+  opacity: 1;
   visibility: visible;
-  transform: translate3d(0, 40px, 0);
-  transition:
-    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: none;
+  transition: none;
   transition-delay: var(--motion-delay, 0ms);
+}
+
+body.reveal-ready .reveal,
+body.reveal-ready .motion-reveal {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
 }
 
-.reveal--right {
-  transform: translate3d(34px, 0, 0);
+body.reveal-ready .reveal--right {
+  transform: translate3d(0, 28px, 0);
 }
 
-.reveal.is-visible,
-.motion-reveal.is-visible {
+body.reveal-ready .reveal.is-visible,
+body.reveal-ready .motion-reveal.is-visible,
+body:not(.reveal-ready) .reveal,
+body:not(.reveal-ready) .motion-reveal {
   opacity: 1;
   transform: translate3d(0, var(--parallax-y, 0px), 0);
 }
@@ -237,7 +246,7 @@ body.page-exit .footer {
 @keyframes pageEnter {
   from {
     opacity: 0;
-    transform: translate3d(0, 16px, 0);
+    transform: translate3d(0, 12px, 0);
   }
   to {
     opacity: 1;
@@ -300,12 +309,12 @@ body.page-exit .footer {
 }
 
 @media (max-width: 768px) {
-  .reveal,
-  .motion-reveal,
-  .reveal--right,
-  .fade-up,
-  .animate-on-scroll,
-  [data-parallax] {
+  body:not(.reveal-ready) .reveal,
+  body:not(.reveal-ready) .motion-reveal,
+  body:not(.reveal-ready) .reveal--right,
+  body:not(.reveal-ready) .fade-up,
+  body:not(.reveal-ready) .animate-on-scroll,
+  body:not(.reveal-ready) [data-parallax] {
     opacity: 1;
     visibility: visible;
     transform: none !important;

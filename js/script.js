@@ -208,37 +208,32 @@ const setActiveNav = (activeId) => {
 };
 
 let navScrollFrame = null;
+let suppressActiveNavUntilTop = false;
 
 const updateActiveNav = () => {
   navScrollFrame = null;
+  const aboutTarget = navTargets.find(({ id }) => id === "about");
+  const topClearPoint = aboutTarget ? Math.max(0, aboutTarget.section.offsetTop - 160) : 0;
 
-  if (!navTargets.length || window.scrollY < 300) {
+  if (!navTargets.length || window.scrollY < topClearPoint) {
+    suppressActiveNavUntilTop = false;
     clearActiveNav();
     return;
   }
 
-  const focusLine = Math.min(window.innerHeight * 0.45, 360);
-  const activeTarget = navTargets.find(({ section }) => {
-    const rect = section.getBoundingClientRect();
-    return rect.top <= focusLine && rect.bottom > focusLine;
-  });
-
-  if (activeTarget) {
-    setActiveNav(activeTarget.id);
+  if (suppressActiveNavUntilTop) {
+    clearActiveNav();
     return;
   }
 
-  const visibleTarget = navTargets
-    .map((target) => {
-      const rect = target.section.getBoundingClientRect();
-      const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
-      return { ...target, visibleHeight };
-    })
-    .filter(({ visibleHeight }) => visibleHeight > 0)
-    .sort((a, b) => b.visibleHeight - a.visibleHeight)[0];
+  const activeOffset = 180;
+  const currentPosition = window.scrollY + activeOffset;
+  const activeTarget = navTargets
+    .filter(({ section }) => currentPosition >= section.offsetTop)
+    .sort((a, b) => b.section.offsetTop - a.section.offsetTop)[0];
 
-  if (visibleTarget) {
-    setActiveNav(visibleTarget.id);
+  if (activeTarget) {
+    setActiveNav(activeTarget.id);
   } else {
     clearActiveNav();
   }
@@ -257,16 +252,20 @@ if (navLinks.length) {
   window.addEventListener("hashchange", requestActiveNavUpdate);
 
   document.querySelectorAll('a[href="#top"]').forEach((link) => {
-    link.addEventListener("click", () => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      suppressActiveNavUntilTop = true;
       clearActiveNav();
 
-      window.setTimeout(() => {
-        if (window.location.hash === "#top") {
-          window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
-        }
+      window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+      window.scrollTo({
+        top: 0,
+        behavior: prefersReducedMotion.matches ? "auto" : "smooth",
+      });
 
+      window.setTimeout(() => {
         updateActiveNav();
-      }, 650);
+      }, 800);
     });
   });
 }

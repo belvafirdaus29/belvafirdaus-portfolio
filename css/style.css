@@ -52,8 +52,8 @@ a {
 }
 
 ::selection {
-  background: var(--ink);
-  color: white;
+  background: rgba(0, 0, 0, 0.12);
+  color: inherit;
 }
 
 .site-header {
@@ -839,8 +839,8 @@ html[data-theme="dark"] body {
 }
 
 html[data-theme="dark"] ::selection {
-  background: var(--accent);
-  color: #111110;
+  background: rgba(255, 255, 255, 0.18);
+  color: inherit;
 }
 
 html[data-theme="dark"] .site-header {

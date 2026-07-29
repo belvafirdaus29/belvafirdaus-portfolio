@@ -494,7 +494,7 @@ p {
 
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
 }
 
@@ -508,7 +508,8 @@ p {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.project-card img {
+.project-card img,
+.project-card video {
   width: 100%;
   aspect-ratio: 4 / 4.6;
   object-fit: cover;
@@ -516,7 +517,12 @@ p {
   transition: transform 0.65s ease;
 }
 
-.project-card:hover img {
+.project-card video {
+  display: block;
+}
+
+.project-card:hover img,
+.project-card:hover video {
   transform: scale(1.04);
 }
 

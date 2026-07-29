@@ -18,6 +18,7 @@
     ".case-copy",
     ".case-meta",
     ".gallery img",
+    ".video-card",
     ".project-navigation",
     ".footer",
   ];
@@ -28,6 +29,7 @@
     ".software-grid article",
     ".project-grid .project-card",
     ".gallery img",
+    ".video-grid .video-card",
   ];
 
   const getRevealItems = () => Array.from(document.querySelectorAll(".reveal"));

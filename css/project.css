@@ -95,6 +95,62 @@
   grid-column: span 2;
 }
 
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.video-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.74);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.video-card video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  max-height: 560px;
+  object-fit: cover;
+  background: #111110;
+}
+
+.video-card--wide {
+  grid-column: span 3;
+}
+
+.video-card--wide video {
+  aspect-ratio: 16 / 9;
+  max-height: 540px;
+}
+
+.video-card__body {
+  padding: 18px;
+}
+
+.video-card__body p {
+  margin-bottom: 8px;
+  color: var(--blue);
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.video-card__body h3 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.video-card:hover {
+  transform: translateY(-6px);
+  background: white;
+  box-shadow: 0 24px 64px rgba(12, 12, 13, 0.13);
+}
+
 .project-navigation {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -240,7 +296,8 @@ body.lightbox-open {
   }
 
   .gallery,
-  .gallery--mixed {
+  .gallery--mixed,
+  .video-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
@@ -265,11 +322,22 @@ body.lightbox-open {
   .case-meta,
   .gallery,
   .gallery--mixed,
+  .video-grid,
   .project-navigation {
     grid-template-columns: 1fr;
   }
 
   .gallery img {
+    max-height: none;
+  }
+
+  .video-card--wide {
+    grid-column: auto;
+  }
+
+  .video-card video,
+  .video-card--wide video {
+    aspect-ratio: 9 / 16;
     max-height: none;
   }
 
@@ -304,6 +372,7 @@ html[data-theme="dark"] .case-study {
 
 html[data-theme="dark"] .case-copy,
 html[data-theme="dark"] .case-meta,
+html[data-theme="dark"] .video-card,
 html[data-theme="dark"] .project-nav-link {
   border-color: var(--line);
   background: var(--paper);
@@ -315,6 +384,10 @@ html[data-theme="dark"] .gallery img {
 }
 
 html[data-theme="dark"] .project-nav-link:hover {
+  background: var(--paper-solid);
+}
+
+html[data-theme="dark"] .video-card:hover {
   background: var(--paper-solid);
 }
 

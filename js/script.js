@@ -17,6 +17,7 @@ const motionRevealSelectors = [
   ".case-meta",
   ".gallery",
   ".gallery img",
+  ".video-card",
   ".project-navigation",
   ".footer",
 ];
@@ -27,6 +28,7 @@ const staggerGroups = [
   ".software-grid article",
   ".project-grid .project-card",
   ".gallery img",
+  ".video-grid .video-card",
 ];
 
 const addMotionReveal = (element) => {
@@ -482,7 +484,7 @@ if (cursor && canHover) {
     cursor.style.opacity = "1";
   });
 
-  document.querySelectorAll("a, button, .project-card, .gallery img").forEach((target) => {
+  document.querySelectorAll("a, button, .project-card, .gallery img, .video-card").forEach((target) => {
     target.addEventListener("pointerenter", () => cursor.classList.add("is-active"));
     target.addEventListener("pointerleave", () => cursor.classList.remove("is-active"));
   });

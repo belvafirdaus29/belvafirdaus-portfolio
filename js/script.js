@@ -244,12 +244,119 @@ const requestActiveNavUpdate = () => {
   navScrollFrame = window.requestAnimationFrame(updateActiveNav);
 };
 
+let anchorScrollFrame = null;
+let resolveAnchorScroll = null;
+let navSectionAnimationTimer = null;
+
+const getSectionScrollTop = (section) => {
+  const headerHeight = document.querySelector(".site-header")?.getBoundingClientRect().height || 0;
+  const targetTop = section.getBoundingClientRect().top + window.scrollY - headerHeight - 22;
+
+  return Math.max(0, targetTop);
+};
+
+const easeInOutCubic = (progress) =>
+  progress < 0.5
+    ? 4 * progress * progress * progress
+    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+const scrollToSection = (section) => {
+  const targetTop = getSectionScrollTop(section);
+
+  if (anchorScrollFrame) {
+    window.cancelAnimationFrame(anchorScrollFrame);
+    anchorScrollFrame = null;
+  }
+
+  if (resolveAnchorScroll) {
+    resolveAnchorScroll(false);
+    resolveAnchorScroll = null;
+  }
+
+  if (prefersReducedMotion.matches) {
+    window.scrollTo(0, targetTop);
+    return Promise.resolve(true);
+  }
+
+  const startTop = window.scrollY;
+  const distance = targetTop - startTop;
+
+  if (Math.abs(distance) < 2) {
+    window.scrollTo(0, targetTop);
+    return Promise.resolve(true);
+  }
+
+  const duration = Math.min(1100, Math.max(560, Math.abs(distance) * 0.48));
+  const startTime = window.performance.now();
+
+  return new Promise((resolve) => {
+    resolveAnchorScroll = resolve;
+
+    const step = (currentTime) => {
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+      const easedProgress = easeInOutCubic(progress);
+
+      window.scrollTo(0, startTop + distance * easedProgress);
+
+      if (progress < 1) {
+        anchorScrollFrame = window.requestAnimationFrame(step);
+      } else {
+        anchorScrollFrame = null;
+        resolveAnchorScroll = null;
+        resolve(true);
+      }
+    };
+
+    anchorScrollFrame = window.requestAnimationFrame(step);
+  });
+};
+
+const playNavSectionAnimation = (section, direction) => {
+  if (prefersReducedMotion.matches) return;
+
+  window.clearTimeout(navSectionAnimationTimer);
+  document.querySelectorAll(".section.is-nav-entering").forEach((item) => {
+    item.classList.remove("is-nav-entering", "nav-enter-from-down", "nav-enter-from-up");
+  });
+
+  section.classList.remove("nav-enter-from-down", "nav-enter-from-up", "is-nav-entering");
+  void section.offsetHeight;
+  section.classList.add(
+    "is-nav-entering",
+    direction === "up" ? "nav-enter-from-up" : "nav-enter-from-down"
+  );
+
+  navSectionAnimationTimer = window.setTimeout(() => {
+    section.classList.remove("is-nav-entering", "nav-enter-from-down", "nav-enter-from-up");
+  }, 760);
+};
+
 if (navLinks.length) {
   updateActiveNav();
   window.addEventListener("scroll", requestActiveNavUpdate, { passive: true });
   window.addEventListener("resize", requestActiveNavUpdate);
   window.addEventListener("load", updateActiveNav, { once: true });
   window.addEventListener("hashchange", requestActiveNavUpdate);
+
+  navTargets.forEach(({ id, link, section }) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+
+      suppressActiveNavUntilTop = false;
+      const targetTop = getSectionScrollTop(section);
+      const direction = targetTop < window.scrollY ? "up" : "down";
+
+      setActiveNav(id);
+      window.history.pushState(null, "", `#${id}`);
+
+      scrollToSection(section).then((completed) => {
+        if (!completed) return;
+
+        playNavSectionAnimation(section, direction);
+        updateActiveNav();
+      });
+    });
+  });
 
   document.querySelectorAll('a[href="#top"]').forEach((link) => {
     link.addEventListener("click", (event) => {

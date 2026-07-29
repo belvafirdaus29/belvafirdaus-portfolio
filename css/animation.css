@@ -266,6 +266,21 @@ body.page-exit .footer {
   pointer-events: none;
 }
 
+.section.is-nav-entering {
+  animation-duration: 0.72s;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.section.is-nav-entering.nav-enter-from-down {
+  animation-name: navSectionEnterDown;
+}
+
+.section.is-nav-entering.nav-enter-from-up {
+  animation-name: navSectionEnterUp;
+}
+
 @keyframes pulse {
   0%,
   100% {
@@ -282,6 +297,28 @@ body.page-exit .footer {
   from {
     opacity: 0;
     transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes navSectionEnterDown {
+  from {
+    opacity: 0.22;
+    transform: translate3d(0, 34px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes navSectionEnterUp {
+  from {
+    opacity: 0.22;
+    transform: translate3d(0, -34px, 0);
   }
   to {
     opacity: 1;
@@ -329,6 +366,7 @@ body.page-exit .footer {
   .motion-reveal,
   .reveal--right,
   [data-parallax],
+  .section.is-nav-entering,
   body.page-enter .site-header,
   body.page-enter main,
   body.page-enter .footer,

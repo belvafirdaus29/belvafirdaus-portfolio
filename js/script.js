@@ -17,6 +17,7 @@ const motionRevealSelectors = [
   ".case-meta",
   ".gallery",
   ".gallery img",
+  ".youtube-card",
   ".video-card",
   ".project-navigation",
   ".footer",
@@ -28,6 +29,7 @@ const staggerGroups = [
   ".software-grid article",
   ".project-grid .project-card",
   ".gallery img",
+  ".youtube-grid .youtube-card",
   ".video-grid .video-card",
 ];
 
@@ -484,7 +486,7 @@ if (cursor && canHover) {
     cursor.style.opacity = "1";
   });
 
-  document.querySelectorAll("a, button, .project-card, .gallery img, .video-card").forEach((target) => {
+  document.querySelectorAll("a, button, .project-card, .gallery img, .youtube-card, .video-card").forEach((target) => {
     target.addEventListener("pointerenter", () => cursor.classList.add("is-active"));
     target.addEventListener("pointerleave", () => cursor.classList.remove("is-active"));
   });

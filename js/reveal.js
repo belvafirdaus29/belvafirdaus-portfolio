@@ -18,6 +18,7 @@
     ".case-copy",
     ".case-meta",
     ".gallery img",
+    ".youtube-card",
     ".video-card",
     ".project-navigation",
     ".footer",
@@ -29,6 +30,7 @@
     ".software-grid article",
     ".project-grid .project-card",
     ".gallery img",
+    ".youtube-grid .youtube-card",
     ".video-grid .video-card",
   ];
 
